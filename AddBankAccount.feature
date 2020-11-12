@@ -6,7 +6,6 @@ Given User logged into Real world Application
 And user into bank Account screen
 And User has any existing accounts 
 
-
 Scenario: Thanos is able to create a bank account by clicking on create account button
 Given Thanos Enters bankname: "Kotak"
      And RoutingNumber : "123456789"
@@ -14,27 +13,28 @@ Given Thanos Enters bankname: "Kotak"
      And click on save button
      Then should see "Kotak" in the bank Accounts list 
 
-
-
-
-
-Scenario: Invalid Routing Number
+Scenario Scenario Outline: Invalid Routing Number
      Given Thanos Enters bankname: "Kotak"
-     And RoutingNumber : "123"
-     Then save button should not be enabled and error message should be thrown 
-
-
-
-Scenario: Invalid Account number
+     And RoutingNumber : <field name>
+     Then save button should not be enabled and error message "Must contain Valid Routing number"
+      Examples: 
+        |  Routing Number   |   
+        |  123              |
+        |  12345678909866   |
+         
+ Scenario Outline: Invalid Account number
       Given Thanos enters bankname: "Kotak"
-      And AccountNumber : "12345555555555555"
+      And AccountNumber : <field name>
       Then save button should not be enabled and error message should be thrown
- 
+      Examples: 
+      |  Account number  | 
+      | 1234567890988777 | 
+      | 123455           | 
 
 Scenario: Blank fields
      Given Thanos Enters bankname: ""
      And RoutingNumber : ""
      And AccountNumber : ""
-     Then save button should not be enabled 
+     Then errors for each field will be shown and save button will be disabled 
 
  
